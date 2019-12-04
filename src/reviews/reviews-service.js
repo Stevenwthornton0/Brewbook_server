@@ -35,6 +35,40 @@ const ReviewsService = {
       .groupBy('rev.id', 'usr.id')
   },
 
+  getById(db, id) {
+    return db
+      .from('brewbook_reviews AS rev')
+      .select(
+        'rev.id',
+        'rev.rating',
+        'rev.text',
+        'rev.date_created',
+        'rev.brewery_id',
+        db.raw(
+          `json_strip_nulls(
+            row_to_json(
+              (SELECT tmp FROM (
+                SELECT
+                  usr.id,
+                  usr.user_name,
+                  usr.first_name,
+                  usr.last_name,
+                  usr.date_created,
+                  usr.date_modified
+              ) tmp)
+            )
+          ) AS "user"`
+        )
+      )
+      .leftJoin(
+        'brewbook_users AS usr',
+        'rev.user_id',
+        'usr.id',
+      )
+      .where('rev.id', id)
+      .first()
+  },
+
   insertReview(db, newReview) {
     return db
       .insert(newReview)
