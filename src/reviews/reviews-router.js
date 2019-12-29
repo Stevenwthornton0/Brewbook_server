@@ -47,4 +47,21 @@ reviewsRouter
             .catch(next)
     })
 
+reviewsRouter
+    .route('/:brewery_id/:review_id')
+    // .all(requireAuth)
+    .delete((req, res, next) => {
+        ReviewsService.deleteReview(
+            req.app.get('db'),
+            req.params.brewery_id,
+            req.params.review_id
+        )
+            .then(numRowsAffected => {
+                res.status(204).end()
+            })
+            .catch(next)
+
+
+    })
+
 module.exports = reviewsRouter;

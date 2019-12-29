@@ -1,16 +1,16 @@
 const express = require('express');
 const path = require('path');
 const UsersService = require('./users-service');
+const { requireAuth } = require('../middleware/jwt-auth');
 
 const usersRouter = express.Router();
 const jsonBodyParser = express.json();
 
 usersRouter
     .post('/', jsonBodyParser, (req, res, next) => {
-        console.log(req.body)
-        const { first_name, last_name, user_name, password, city, state } = req.body;
+        const { first_name, last_name, user_name, password } = req.body;
 
-        for (const field of ['first_name', 'last_name', 'user_name', 'password', 'city', 'state'])
+        for (const field of ['first_name', 'last_name', 'user_name', 'password'])
             if (!req.body[field])
                 return res.status(400).json({ 
                     error: `Missing ${field} in request body` 
@@ -38,8 +38,7 @@ usersRouter
                             password: hashPassword,
                             first_name,
                             last_name,
-                            city,
-                            state, 
+                            admin: 'false',
                             date_created: 'now()'
                         }
 
@@ -57,5 +56,18 @@ usersRouter
             })
             .catch(next)
     })
+
+    usersRouter
+        .route('/:user_name')
+        .get((req, res, next) => {
+            UsersService.getUserFromUserName(
+                req.app.get('db'),
+                req.params.user_name
+            )
+                .then(user => {
+                    res.json(UsersService.serializeUser(user))
+                })
+                .catch(next)
+        })
 
 module.exports = usersRouter;

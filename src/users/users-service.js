@@ -12,6 +12,12 @@ const UsersService = {
             .then(user => !!user)
     },
 
+    getUserFromUserName(db, user_name) {
+        return db('brewbook_users')
+            .where({ user_name })
+            .first()
+    },
+
     insertUser(db, newUser) {
         return db
             .insert(newUser)
@@ -46,7 +52,7 @@ const UsersService = {
             first_name: xss(user.first_name),
             last_name: xss(user.last_name),
             user_name: xss(user.user_name),
-            city: xss(user.city),
+            admin: user.admin,
             date_created: new Date(user.date_created)
         }
     }

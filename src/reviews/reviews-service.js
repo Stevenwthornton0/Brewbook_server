@@ -80,6 +80,13 @@ const ReviewsService = {
       )
   },
 
+  deleteReview(db, brewery_id, id) {
+    return db('brewbook_reviews')
+      .where({ id })
+      .where({ brewery_id })
+      .delete()
+  },
+
   serializeReview(review) {
     const { user } = review
     return {

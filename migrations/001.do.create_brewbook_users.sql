@@ -4,8 +4,7 @@ CREATE TABLE brewbook_users (
     first_name TEXT NOT NULL,
     last_name TEXT NOT NULL,
     password TEXT NOT NULL,
-    city TEXT NOT NULL,
-    state TEXT NOT NULL,
+    admin BOOLEAN DEFAULT false NOT NULL,
     date_created TIMESTAMP DEFAULT now() NOT NULL,
     date_modified TIMESTAMP
 );
