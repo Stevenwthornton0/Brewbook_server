@@ -16,9 +16,9 @@ const app = express();
   app.use(helmet());
   app.use(cors());
 
-  app.use('/api/reviews', reviewsRouter)
-  app.use('/api/auth', authRouter)
-  app.use('/api/users', usersRouter)
+  app.use('/reviews', reviewsRouter)
+  app.use('/auth', authRouter)
+  app.use('/users', usersRouter)
 
   app.use(function errorHandler(error, req, res, next) {
     let response;
