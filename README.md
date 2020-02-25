@@ -69,7 +69,7 @@ The application allows users to post their reviews of different breweries for ot
 }
 ```
 
-## ** DELETE /reviews/:brewery_id/:review_id**
+## **DELETE /reviews/:brewery_id/:review_id**
 
 This endpoint allows the authorized admin to delete any reviews unwanted or innapropriate specified by the brewery_id and the id of the review itself. If no review id is found, the server responds with a status 400.
 
