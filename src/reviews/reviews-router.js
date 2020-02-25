@@ -9,6 +9,7 @@ const jsonBodyParser = express.json();
 reviewsRouter
     .route('/')
     .post(requireAuth, jsonBodyParser, (req, res, next) => {
+    // posts a new review to a brewery page
         const { brewery_id, rating, text } = req.body;
         const newReview = { brewery_id, rating, text };
 
@@ -17,6 +18,7 @@ reviewsRouter
                 return res.status(400).json({
                     error: `Missing '${key}' in request body`
                 })
+        // makes sure all required fields are present
 
         newReview.user_id = req.user.id
 
@@ -37,6 +39,7 @@ reviewsRouter
     .route('/:brewery_id')
     .all(requireAuth)
     .get((req, res, next) => {
+    // gets data for reviews specific to a brewery
             ReviewsService.getBreweryReviews(
             req.app.get('db'),
             req.params.brewery_id
@@ -50,6 +53,7 @@ reviewsRouter
 reviewsRouter
     .route('/:brewery_id/:review_id')
     .delete((req, res, next) => {
+    // deletes a review. Only available to admin.
         ReviewsService.deleteReview(
             req.app.get('db'),
             req.params.brewery_id,
