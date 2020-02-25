@@ -49,7 +49,6 @@ reviewsRouter
 
 reviewsRouter
     .route('/:brewery_id/:review_id')
-    // .all(requireAuth)
     .delete((req, res, next) => {
         ReviewsService.deleteReview(
             req.app.get('db'),
