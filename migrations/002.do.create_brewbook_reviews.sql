@@ -3,7 +3,7 @@ CREATE TABLE brewbook_reviews (
     rating INTEGER NOT NULL,
     text TEXT NOT NULL,
     date_created TIMESTAMP DEFAULT now() NOT NULL,
-    brewery_id INTEGER NOT NULL,
+    brewery_id TEXT NOT NULL,
     user_id INTEGER
         REFERENCES brewbook_users(id) ON DELETE CASCADE NOT NULL
 );
